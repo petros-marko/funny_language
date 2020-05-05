@@ -20,7 +20,7 @@ class FVIDraggableManager{
     try{
       int i = Integer.parseInt(in.content);
     }catch(NumberFormatException e){
-      if((!in.content.equals("True")) && (!in.content.equals("False")) && (!in.content.equals("Nil")))
+      if((!in.content.equals("True")) && (!in.content.equals("False")) && (!in.content.equals("Nil")) && !args.contains(in.content))
         args.add(in.content);
     }
   }
