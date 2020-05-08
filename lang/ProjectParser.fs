@@ -6,7 +6,8 @@ open Parser
 type Primitive = 
      | Bool of bool
      | Nil
-     | Number of int
+     | Integer of int
+     | Real of float
      | Pair of Primitive * Primitive
      | Arg of string
 
@@ -14,7 +15,8 @@ let rec pprettyprint p =
     match p with
     |Bool b -> string b
     |Nil -> "Nil"
-    |Number n -> string n
+    |Integer n -> string n
+    |Real x -> string x
     |Pair (p1, p2) -> "[" + (pprettyprint p1) + ", " + (pprettyprint p2) + "]"
     |Arg s -> s
 
@@ -31,9 +33,10 @@ let eprettyprint e =
 
 let pbool      = (pstr "True") <|> (pstr "False") |>> Convert.ToBoolean |>> Bool <!> "bool"
 let pnil       = pfresult (pstr "Nil") Nil <!> "nil"
-let pnumber    = ((pseq (pchar '-') (pmany1 pdigit) (fun (a,b) -> a::b)) <|> (pmany1 pdigit)) |>> String.Concat |>> int |>> Number <!> "number"
+let pinteger   = ((pseq (pchar '-') (pmany1 pdigit) (fun (a,b) -> a::b)) <|> (pmany1 pdigit)) |>> String.Concat |>> int |>> Integer <!> "number"
+let preal      = (pseq (pseq ((pseq (pchar '-') (pmany0 pdigit) (fun (a,b) -> a::b)) <|> (pmany0 pdigit)) (pchar '.') (fun (a, b) -> (stringify a) + (string b))) (pmany1 pdigit) (fun (a,b) -> a + (stringify b))) |>> float |>> Real
 let parg       = pmany1 pletter |>> String.Concat |>> Arg <!> "arg"
-let pprimitive = pbool <|> pnil <|> pnumber <|> parg <!> "primitive"
+let pprimitive = pbool <|> pnil <|> preal <|> pinteger <|> parg <!> "primitive"
 
 let rec sequencer s =
         match s with
