@@ -38,7 +38,7 @@ let rec evalHelper e cs =
                                  |"minus" -> match (evalHelper args.[0] cs, evalHelper args.[1] cs) with
                                              |(Value (Integer n), Value (Integer m)) -> Value (Integer (n - m))
                                              |(Value (Integer n), Value (Real x)) -> Value (Real ((float n) - x))
-                                             |(Value (Real x), Value (Integer n)) -> Value (Real ((float n) - x))
+                                             |(Value (Real x), Value (Integer n)) -> Value (Real (x - (float n)))
                                              |(Value (Real x), Value (Real y)) -> Value (Real (x - y))
                                              | _ -> failwith "incorrect arguments passed to function minus"
                                  |"times" -> match (evalHelper args.[0] cs, evalHelper args.[1] cs) with
@@ -50,7 +50,7 @@ let rec evalHelper e cs =
                                  |"div" -> match (evalHelper args.[0] cs, evalHelper args.[1] cs) with
                                              |(Value (Integer n), Value (Integer m)) -> Value (Integer (n / m))
                                              |(Value (Integer n), Value (Real x)) -> Value (Real ((float n) / x))
-                                             |(Value (Real x), Value (Integer n)) -> Value (Real ((float n) / x))
+                                             |(Value (Real x), Value (Integer n)) -> Value (Real (x / (float n)))
                                              |(Value (Real x), Value (Real y)) -> Value (Real (x / y))
                                              | _ -> failwith "incorrect arguments passed to function div"
                                  |"mod" -> match (evalHelper args.[0] cs, evalHelper args.[1] cs) with
