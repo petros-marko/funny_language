@@ -25,11 +25,13 @@ public class funny_visual_interface_v2 extends PApplet {
 FVIDraggableManager manager;
 Toolbox toolbox;
 boolean typingValue, typingName, printingOutput;
+int tSize;
 String valueTyped, nfName, programOutput;
 
 public void setup(){
   //size(400,400);
   
+  println(height);
   fill(0);
   strokeWeight(2);
   toolbox = new Toolbox(new PVector(0, 64), new PVector(width / 4, height));
@@ -44,8 +46,8 @@ public void draw(){
   background(255);
   line(width / 4, 0, width / 4, height);
   textSize(32);
-  text("Toolbox", width / 15, 32);
-  text("Workshop", width / 2 + width / 15, 32);
+  text("Toolbox", width / 15, textAscent());
+  text("Workshop", width / 2 + width / 15, textAscent());
   if(typingValue){
     textSize(18);
     text("The following input will be inserted when you press enter: " + valueTyped, width / 4 + width / 15, 90);
@@ -55,8 +57,8 @@ public void draw(){
     text("Please enter a name for the function you want to save: " + nfName, width / 4 + width / 15, 90);
   }
   if(printingOutput){
-    textSize(18);
-    text("The output of your program was: " + programOutput, width / 4 + width / 15, 90);
+    textSize(tSize);
+    text("Output: " + programOutput, width / 4, 100 * height / 768);
   }
   
   noFill();
@@ -64,21 +66,26 @@ public void draw(){
   textSize(18);
   
   text("V", 49 * width / 50 +  width / 100 - textWidth("V") / 2, 100 + width / 76);
-  rect(49 * width / 50, 100, width / 50, width / 50);
+  rect(49 * width / 50, 100 * height / 768, width / 50, width / 50);
   text("S", width / 4 + width / 100 - textWidth("S") / 2, 100 + width / 76);
-  rect(width / 4, 100, width / 50, width / 50);
+  rect(width / 4, 100 * height / 768, width / 50, width / 50);
   text("R", width / 25 + width / 4 + width / 100 - textWidth("R") / 2, 100 + width / 76);
-  rect(width / 4 + width / 25, 100, width / 50, width / 50);
+  rect(width / 4 + width / 25, 100 * height / 768, width / 50, width / 50);
   line(width / 4, width / 50 + 101, width, width / 50 + 101);
   manager.draw();
   toolbox.draw();
 }
 
-public void mouseClicked(){
+public void mouseClicked(MouseEvent evt){
   manager.select(new PVector(mouseX, mouseY));
+  if(mouseButton == LEFT){
   FunctionMachine possible = toolbox.select(new PVector(mouseX, mouseY));
   if(possible != null){
     manager.addDraggable(possible);
+  }
+  }
+  else{
+    toolbox.delete(new PVector(mouseX, mouseY));
   }
   if(mouseX <= width && mouseX >= 49 * width / 50 && mouseY >= 100 && mouseY <= 100 + width / 50){
     typingValue = !typingValue;
@@ -119,6 +126,7 @@ public void mouseClicked(){
            programOutput = line;
            System.out.println(line);
         }
+        tSize = calculateOutputTextSize();
         printingOutput = true;
         typingValue = false;
         typingName = false;
@@ -204,6 +212,24 @@ public void keyTyped(KeyEvent event){
 
 public void mouseDragged(){
   manager.handleDrag(mouseX, mouseY);
+}
+
+public int calculateOutputTextSize(){
+  textSize(32);
+  float top = textAscent();
+  int h = 100;
+  int l = 0;
+  int m  = 0;
+  while(l < h){
+    m = (l + h) / 2;
+    textSize(m);
+    if(100 * height / 768 - textAscent() < top || textWidth("Output: " + programOutput) > 3 * width / 4){
+      h = m - 1;
+    }else{
+      l = m + 1;
+    }
+  }
+  return m;
 }
 abstract class FVIDraggable{
   protected PVector pos, connector;
@@ -499,6 +525,7 @@ class Input extends FVIDraggable implements Comparable<Input>{
 class Toolbox{
   private PVector ul, lr;
   private ArrayList<FunctionMachine> available;
+  public int countBase;
   
   public Toolbox(PVector ul, PVector lr){
     this.ul = ul;
@@ -548,6 +575,7 @@ class Toolbox{
     this.add("toInteger");
     this.add("toReal");
     this.add("self");
+    countBase = available.size() - 1;
   }
   
   public void draw(){
@@ -574,8 +602,27 @@ class Toolbox{
     return null;
   }
   
+  public void delete(PVector mousePos){
+    FunctionMachine toDelete = null;
+    for(int i = countBase; i < available.size() - 1; i++){
+      FunctionMachine m = available.get(i);
+      if(m.within(mousePos.x, mousePos.y)){
+        toDelete = m;
+        break;
+      }
+    }
+    if(toDelete == null)
+      return;
+    int idx = available.indexOf(toDelete);
+    for(int i = idx; i < available.size(); i++){
+      FunctionMachine curr = available.get(i);
+      curr.setPos(new PVector(curr.getPos().x, curr.getPos().y - (width / 10 + 30)));
+    }
+    available.remove(toDelete);
+  }
+  
   private void add(String mName){
-    FunctionMachine nMachine = new FunctionMachine(new PVector(width / 8, 110 + available.size() * (width / 10 + 30)), mName);
+    FunctionMachine nMachine = new FunctionMachine(new PVector(width / 8, 110 * height / 768 + available.size() * (width / 10 + 30)), mName);
     nMachine.setLocked(true);
     available.add(nMachine);
   }

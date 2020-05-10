@@ -1,6 +1,7 @@
 class Toolbox{
   private PVector ul, lr;
   private ArrayList<FunctionMachine> available;
+  public int countBase;
   
   public Toolbox(PVector ul, PVector lr){
     this.ul = ul;
@@ -50,6 +51,7 @@ class Toolbox{
     this.add("toInteger");
     this.add("toReal");
     this.add("self");
+    countBase = available.size() - 1;
   }
   
   public void draw(){
@@ -76,8 +78,27 @@ class Toolbox{
     return null;
   }
   
+  public void delete(PVector mousePos){
+    FunctionMachine toDelete = null;
+    for(int i = countBase; i < available.size() - 1; i++){
+      FunctionMachine m = available.get(i);
+      if(m.within(mousePos.x, mousePos.y)){
+        toDelete = m;
+        break;
+      }
+    }
+    if(toDelete == null)
+      return;
+    int idx = available.indexOf(toDelete);
+    for(int i = idx; i < available.size(); i++){
+      FunctionMachine curr = available.get(i);
+      curr.setPos(new PVector(curr.getPos().x, curr.getPos().y - (width / 10 + 30)));
+    }
+    available.remove(toDelete);
+  }
+  
   private void add(String mName){
-    FunctionMachine nMachine = new FunctionMachine(new PVector(width / 8, 110 + available.size() * (width / 10 + 30)), mName);
+    FunctionMachine nMachine = new FunctionMachine(new PVector(width / 8, 110 * height / 768 + available.size() * (width / 10 + 30)), mName);
     nMachine.setLocked(true);
     available.add(nMachine);
   }

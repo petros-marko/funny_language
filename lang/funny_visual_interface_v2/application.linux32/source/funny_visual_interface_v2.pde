@@ -5,11 +5,13 @@ import java.util.Comparator;
 FVIDraggableManager manager;
 Toolbox toolbox;
 boolean typingValue, typingName, printingOutput;
+int tSize;
 String valueTyped, nfName, programOutput;
 
 void setup(){
   //size(400,400);
   fullScreen();
+  println(height);
   fill(0);
   strokeWeight(2);
   toolbox = new Toolbox(new PVector(0, 64), new PVector(width / 4, height));
@@ -24,8 +26,8 @@ void draw(){
   background(255);
   line(width / 4, 0, width / 4, height);
   textSize(32);
-  text("Toolbox", width / 15, 32);
-  text("Workshop", width / 2 + width / 15, 32);
+  text("Toolbox", width / 15, textAscent());
+  text("Workshop", width / 2 + width / 15, textAscent());
   if(typingValue){
     textSize(18);
     text("The following input will be inserted when you press enter: " + valueTyped, width / 4 + width / 15, 90);
@@ -35,8 +37,8 @@ void draw(){
     text("Please enter a name for the function you want to save: " + nfName, width / 4 + width / 15, 90);
   }
   if(printingOutput){
-    textSize(18);
-    text("The output of your program was: " + programOutput, width / 4 + width / 15, 90);
+    textSize(tSize);
+    text("Output: " + programOutput, width / 4, 100 * height / 768);
   }
   
   noFill();
@@ -44,21 +46,26 @@ void draw(){
   textSize(18);
   
   text("V", 49 * width / 50 +  width / 100 - textWidth("V") / 2, 100 + width / 76);
-  rect(49 * width / 50, 100, width / 50, width / 50);
+  rect(49 * width / 50, 100 * height / 768, width / 50, width / 50);
   text("S", width / 4 + width / 100 - textWidth("S") / 2, 100 + width / 76);
-  rect(width / 4, 100, width / 50, width / 50);
+  rect(width / 4, 100 * height / 768, width / 50, width / 50);
   text("R", width / 25 + width / 4 + width / 100 - textWidth("R") / 2, 100 + width / 76);
-  rect(width / 4 + width / 25, 100, width / 50, width / 50);
+  rect(width / 4 + width / 25, 100 * height / 768, width / 50, width / 50);
   line(width / 4, width / 50 + 101, width, width / 50 + 101);
   manager.draw();
   toolbox.draw();
 }
 
-void mouseClicked(){
+void mouseClicked(MouseEvent evt){
   manager.select(new PVector(mouseX, mouseY));
+  if(mouseButton == LEFT){
   FunctionMachine possible = toolbox.select(new PVector(mouseX, mouseY));
   if(possible != null){
     manager.addDraggable(possible);
+  }
+  }
+  else{
+    toolbox.delete(new PVector(mouseX, mouseY));
   }
   if(mouseX <= width && mouseX >= 49 * width / 50 && mouseY >= 100 && mouseY <= 100 + width / 50){
     typingValue = !typingValue;
@@ -99,6 +106,7 @@ void mouseClicked(){
            programOutput = line;
            System.out.println(line);
         }
+        tSize = calculateOutputTextSize();
         printingOutput = true;
         typingValue = false;
         typingName = false;
@@ -184,4 +192,22 @@ void keyTyped(KeyEvent event){
 
 void mouseDragged(){
   manager.handleDrag(mouseX, mouseY);
+}
+
+int calculateOutputTextSize(){
+  textSize(32);
+  float top = textAscent();
+  int h = 100;
+  int l = 0;
+  int m  = 0;
+  while(l < h){
+    m = (l + h) / 2;
+    textSize(m);
+    if(100 * height / 768 - textAscent() < top || textWidth("Output: " + programOutput) > 3 * width / 4){
+      h = m - 1;
+    }else{
+      l = m + 1;
+    }
+  }
+  return m;
 }
