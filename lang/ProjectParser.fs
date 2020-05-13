@@ -56,3 +56,5 @@ let parse inp =
     match grammar (prepare inp) with
     |Success (r, _) -> Some r
     |Failure _ -> None
+
+let formatInputString (s : string) = s.Replace("\\n","\n")
