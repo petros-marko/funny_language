@@ -1,5 +1,4 @@
 ﻿// Learn more about F# at http://fsharp.org
-//Test
 
 open System
 open ProjectParser
