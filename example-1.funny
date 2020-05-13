@@ -1,0 +1,2 @@
+To run the example copy and paste the following line:
+dotnet run "\n(fun max m n ( if ( gr m n ) m n ))\n( max 3 5 )"

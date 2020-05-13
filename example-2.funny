@@ -1,0 +1,2 @@
+To run the example copy and paste the following line:
+dotnet run "\n(fun or p q ( if p True q ))\n(fun not p ( if p False True ))\n(fun implies p q ( or ( not p ) q ))\n( implies False True )"
