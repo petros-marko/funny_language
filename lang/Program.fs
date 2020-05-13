@@ -14,5 +14,5 @@ let main argv =
        |Some r -> eval r |> eprettyprint |> printfn "%s"
        |None -> failwith "Invalid Expression"
     with
-    |_ -> printf "Usage: dotnet run <program>\n<program> is a string representation of the program to be run"
+    |_ -> printf "Usage: dotnet run <program>\n<program> is a string representation of the program to be run\n"
     0 // return an integer exit code
