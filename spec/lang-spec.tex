@@ -139,8 +139,8 @@ The current grammar for the language is the following:
              |<application>
              |<fundefinition>
 <sequence> ::= 
-           |\n<value>
-           |\n<application>
+           |\n<fundefinition>\n<value>
+           |\n<fundefinition>\n<application>
            |\n<fundefinition><sequence>
 <value> ::= <primitive>
 <application> ::= ( <word> <expression>+ )
