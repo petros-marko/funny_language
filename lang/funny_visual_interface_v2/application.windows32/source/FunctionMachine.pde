@@ -22,7 +22,7 @@ class FunctionMachine extends FVIDraggable{
    rect(pos.x, pos.y, width / 10, width / 10); 
    for(int i = 0; i < inputs.size(); i++){
      ((inputs.get(i) instanceof FunctionMachine)? ((FunctionMachine)inputs.get(i)):((Input)inputs.get(i))).draw();
-     line(inputs.get(i).getConnector().x, inputs.get(i).getConnector().y, pos.x + (width / 20) * i / inputs.size(), pos.y - width / 20);
+     arrow(inputs.get(i).getConnector().x, inputs.get(i).getConnector().y, pos.x + (width / 20) * i / inputs.size(), pos.y - width / 20);
    }
   }
   
@@ -66,4 +66,16 @@ class FunctionMachine extends FVIDraggable{
    res += " )";
    return res;
   }
+  
+  private void arrow(float x1, float y1, float x2, float y2) {
+    line(x1, y1, x2, y2);
+    pushMatrix();
+    translate(x2, y2);
+    float a = atan2(x1-x2, y2-y1);
+    float l = dist(x1,y1,x2,y2);
+    rotate(a);
+    line(0, 0, -l / 40, - l / 40);
+    line(0, 0, l / 40, -l / 40);
+    popMatrix();
+  } 
 }
