@@ -1,2 +1,4 @@
-To run the example copy and paste the following line:
-dotnet run "\n(fun max m n ( if ( gr m n ) m n ))\n( max 3 5 )"
+To run the example copy and paste the following line in a terminal after you navigate into the lang/funny_language/ directory:
+    dotnet run "\n(fun max m n ( if ( gr m n ) m n ))\n( max 3 5 )"
+Alternatively, you can copy and paste the following line in a terminal after you navigate into the lang/ directory:
+    dotnet run "\n(fun max m n ( if ( gr m n ) m n ))\n( max 3 5 )" --project funny_language/funny_language.fsproj
