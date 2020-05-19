@@ -1,8 +1,8 @@
-# cs334 HW7
+# cs334 HW10
 
 # Instructions for starting up the interface
 
-Clone the repository and cd into the directory. Navigate to lang/funny_visual_interface_v2 and cd into the version that works for your operating system (linux or windows for the time being). Don't move anything, as the interface will not work if placed in a different directory. Open a terminal in that directory and run the file named funny_visual_interface_v2.
+Clone the repository and cd into the directory. Navigate to lang/funny_language/funny_visual_interface_v2 and cd into the version that works for your operating system (linux or windows for the time being). Don't move anything, as the interface will not work if placed in a different directory. Open a terminal in that directory and run the file named funny_visual_interface_v2. Alternatively, if you have some version of Processing on your computer, you can open the funny_visual_interface_v2 directory as a sketch, and run it from within the Processing IDE.
 
 # Instructions for using the interface
 
