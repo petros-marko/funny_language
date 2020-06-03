@@ -1,5 +1,3 @@
-# cs334 HW10
-
 # Instructions for starting up the interface
 
 Clone the repository and cd into the directory. Navigate to lang/funny_language/funny_visual_interface_v2 and cd into the version that works for your operating system (linux or windows for the time being). Don't move anything, as the interface will not work if placed in a different directory. Open a terminal in that directory and run the file named funny_visual_interface_v2. Alternatively, if you have some version of Processing on your computer, you can open the funny_visual_interface_v2 directory as a sketch, and run it from within the Processing IDE.
@@ -22,9 +20,3 @@ Writing a function appliation is equally simple. Anything that does not contain 
 
 So, for example, if I wanted to make a function ```plusOne```, this is the process that I would need to follow:  
 Add the function ```plus``` from the _Toolbox_ and move it to a comfortable position in my workshop. Add the value ```1``` using the button on the upper right corner, move it to a comfortable position and then successively click on the ```1``` and the ```plus``` function. This will add ```1``` as the first argument passed to the function. Then I would add the value ```n``` from using the button, move it to a comfortable position and successively click on ```n``` and the function. Note that the order of the arguments is reflected on the positions in which the lines from the arguments to the function connect: the line connecting farther to the left corresponds to the first argument, the next one to the second etc. Now I can hit the save button and give the name ```plusOne```. Now ```plusOne``` appears in the _Toolbox_ to be used as any other function. As a test, I can now pull it into the _Workshop_, give it the value ```1``` as an argument and hit the run button. The number 2 should appear in the interface.
-
-# Lab Feedback
-
-## Ready for Feeback?
- - [ ] Not completed, development is still in progress
- - [x] Completed, this lab is ready for review.
